@@ -1,15 +1,21 @@
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
 const bodyParser = require("body-parser");
 dotenv.config();
 
+//Imports
+const UserRoutes = require("./route/user/userRoute");
+
+//MiddleWares
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+// routes
+app.use("/api/users", UserRoutes);
 
 app.listen(process.env.PORT, () => {
   mongoose
