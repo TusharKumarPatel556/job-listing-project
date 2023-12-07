@@ -20,6 +20,8 @@ var userDataSchema = new Schema(
     },
     createdAt: Date,
     updatedAt: Date,
+    isloggedIn: Boolean,
+    isAdmin: Boolean,
   },
   { collection: "user-data" }
 );

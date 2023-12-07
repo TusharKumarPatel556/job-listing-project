@@ -8,11 +8,14 @@ dotenv.config();
 
 //Imports
 const UserRoutes = require("./route/user/userRoute");
+const { errorHandler, notFound } = require("./middlewares/error/errorHandler");
 
 //MiddleWares
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(notFound);
+app.use(errorHandler);
 
 // routes
 app.use("/api/users", UserRoutes);
