@@ -1,6 +1,6 @@
 const UserData = require("../../model/user/user");
 const bcrypt = require("bcrypt");
-const token = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 //Register Controller
 const UserRegisterController = async (req, res) => {
@@ -86,8 +86,12 @@ const UserLoginController = async (req, res) => {
         message: "password did not matched",
       });
     } else {
+      const jwtToken = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
+        expiresIn: 200,
+      });
       res.status(200).json({
-        message: "password matched",
+        message: `${user.name}  signed in successfully`,
+        token: jwtToken,
       });
     }
   } catch (err) {
