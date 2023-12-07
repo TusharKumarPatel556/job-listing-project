@@ -8,18 +8,20 @@ dotenv.config();
 
 //Imports
 const UserRoutes = require("./route/user/userRoute");
+const JobRoutes = require("./route/job/jobRouter");
 const { errorHandler, notFound } = require("./middlewares/error/errorHandler");
 
 //MiddleWares
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(notFound);
-app.use(errorHandler);
 
 // routes
 app.use("/api/users", UserRoutes);
+app.use("/api/jobs", JobRoutes);
 
+app.use(notFound);
+app.use(errorHandler);
 app.listen(process.env.PORT, () => {
   mongoose
     .connect(process.env.MONGODB_URL)

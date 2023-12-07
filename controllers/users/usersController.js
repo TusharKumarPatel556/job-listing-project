@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken");
 //Register Controller
 const UserRegisterController = async (req, res) => {
   try {
-    console.log(req.body);
     const { name, email, mobile, password } = req.body;
     const encryptedPassword = await bcrypt.hash(password, 10);
     if (name) {
@@ -29,15 +28,15 @@ const UserRegisterController = async (req, res) => {
 
               res.status(200).json({
                 status: "User creation Successfull",
-                message: {
-                  userexists: UserExists,
-                  name: name,
-                  email: email,
-                  mobile: mobile,
-                  password: encryptedPassword,
-                  createdAt: new Date(),
-                  updatedAt: new Date(),
-                },
+                // message: {
+                //   userexists: UserExists,
+                //   name: name,
+                //   email: email,
+                //   mobile: mobile,
+                //   password: encryptedPassword,
+                //   createdAt: new Date(),
+                //   updatedAt: new Date(),
+                // },
               });
             } else {
               res.json({
