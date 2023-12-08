@@ -16,6 +16,19 @@ const JobPostController = async (req, res) => {
       skillsRequired,
       information,
     } = req.body;
+
+    console.log(
+      companyName,
+      logoUrl,
+      jobPosition,
+      monthlySalary,
+      jobType,
+      location,
+      jobDescription,
+      aboutCompany,
+      skillsRequired,
+      information
+    );
     const jobpost = JobData.create({
       companyName,
       logoUrl,
@@ -31,7 +44,8 @@ const JobPostController = async (req, res) => {
       updatedAt: new Date(),
     });
     res.send({
-      message: "success",
+      message: "Job Posted",
+      recruiter: req.user.name,
     });
   } catch (err) {
     res.send({
