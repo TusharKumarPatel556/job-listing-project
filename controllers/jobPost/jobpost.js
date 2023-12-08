@@ -29,7 +29,7 @@ const JobPostController = async (req, res) => {
       skillsRequired,
       information
     );
-    const jobpost = JobData.create({
+    const jobpost = await JobData.create({
       companyName,
       logoUrl,
       jobPosition,
@@ -54,4 +54,48 @@ const JobPostController = async (req, res) => {
   }
 };
 
-module.exports = JobPostController;
+const JobStatusUpdate = async (req, res) => {
+  try {
+    const {
+      companyName,
+      logoUrl,
+      jobPosition,
+      monthlySalary,
+      jobType,
+      location,
+      jobDescription,
+      aboutCompany,
+      skillsRequired,
+      information,
+      id,
+    } = req.body;
+
+    await JobData.updateOne(
+      { _id: id },
+      {
+        $set: {
+          companyName: companyName,
+          logoUrl: logoUrl,
+          jobPosition: jobPosition,
+          monthlySalary: monthlySalary,
+          jobType: jobType,
+          location: location,
+          jobDescription: jobDescription,
+          aboutCompany: aboutCompany,
+          skillsRequired: skillsRequired,
+          information: information,
+          updatedAt: new Date(),
+        },
+      }
+    );
+    res.status(200).json({
+      user: "Record Updated",
+    });
+  } catch (err) {
+    res.send({
+      message: "Update Failed",
+    });
+  }
+};
+
+module.exports = { JobPostController, JobStatusUpdate };

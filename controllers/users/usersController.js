@@ -86,7 +86,7 @@ const UserLoginController = async (req, res) => {
       });
     } else {
       const jwtToken = jwt.sign(user.toJSON(), process.env.JWT_SECRET, {
-        expiresIn: 1200,
+        expiresIn: 7200,
       });
       res.status(200).json({
         message: `${user.name}  signed in successfully`,
