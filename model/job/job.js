@@ -42,6 +42,8 @@ const jobSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    createdAt: Date,
+    updatedat: Date,
   },
   { collection: "job-data" }
 );
