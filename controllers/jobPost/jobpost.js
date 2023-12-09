@@ -98,4 +98,68 @@ const JobStatusUpdate = async (req, res) => {
   }
 };
 
-module.exports = { JobPostController, JobStatusUpdate };
+const AllJobs = async (req, res) => {
+  try {
+    const users = await JobData.find().select(
+      "companyName logoUrl skillsRequired monthlySalary jobPosition location"
+    );
+    res.status(200).json({
+      users: users,
+    });
+  } catch (err) {
+    res.status(500).send({
+      message: "Can no find any User",
+    });
+  }
+};
+
+const JobDescription = async (req, res) => {
+  try {
+    const jobId = req.params.id;
+    const jobDetails = await JobData.findById(jobId);
+    res.json({
+      data: jobDetails,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: "something went wrong",
+    });
+  }
+};
+
+const GetJobs = async (req, res) => {
+  try {
+    const { skillsRequired, jobPosition } = req.body;
+    const jobs = await JobData.find(
+      {
+        skillsRequired: { $regex: skillsRequired },
+        jobPosition: { $regex: jobPosition },
+      },
+      {
+        companyName: 1,
+        logoUrl: 1,
+        monthlySalary: 1,
+        jobType: 1,
+        location: 1,
+        jobDescription: 1,
+        aboutCompany: 1,
+        information: 1,
+      }
+    );
+    res.json({
+      jobs: jobs,
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message,
+    });
+  }
+};
+
+module.exports = {
+  JobPostController,
+  JobStatusUpdate,
+  AllJobs,
+  JobDescription,
+  GetJobs,
+};

@@ -7,60 +7,31 @@ const UserRegisterController = async (req, res) => {
   try {
     const { name, email, mobile, password } = req.body;
     const encryptedPassword = await bcrypt.hash(password, 10);
-    if (name) {
-      if (email) {
-        if (mobile) {
-          if (password) {
-            const UserExists = await UserData.findOne({
-              email: email,
-              mobile: mobile,
-            });
 
-            if (!UserExists) {
-              const user = await UserData.create({
-                name: name,
-                email: email,
-                mobile: mobile,
-                password: encryptedPassword,
-                createdAt: new Date(),
-                updatedAt: new Date(),
-              });
+    const UserExists = await UserData.findOne({
+      email: email,
+      mobile: mobile,
+    });
 
-              res.status(200).json({
-                status: "User creation Successfull",
-                // message: {
-                //   userexists: UserExists,
-                //   name: name,
-                //   email: email,
-                //   mobile: mobile,
-                //   password: encryptedPassword,
-                //   createdAt: new Date(),
-                //   updatedAt: new Date(),
-                // },
-              });
-            } else {
-              res.json({
-                message: "User Exists",
-              });
-            }
-          } else {
-            res.json({
-              message: "Password is Required",
-            });
-          }
-        } else {
-          res.json({
-            message: "Mobile Number  is Required",
-          });
-        }
-      } else {
-        res.json({
-          message: "Email is Required",
-        });
+    if (!UserExists) {
+      const user = await UserData.create({
+        name: name,
+        email: email,
+        mobile: mobile,
+        password: encryptedPassword,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      console.log(user);
+      if (user) {
+        req.body.email = email;
+        req.body.password = password;
+        console.log(req.body.email, req.body.password);
+        return res.redirect("/login");
       }
     } else {
       res.json({
-        message: "Name is Required",
+        message: "User Exists",
       });
     }
   } catch (err) {
@@ -75,7 +46,6 @@ const UserRegisterController = async (req, res) => {
 const UserLoginController = async (req, res) => {
   try {
     const { email, password } = req.body;
-
     const user = await UserData.findOne({ email });
 
     const passwordMatched = await bcrypt.compare(password, user.password);
