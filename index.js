@@ -3,6 +3,7 @@ const app = express();
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const bodyParser = require("body-parser");
 dotenv.config();
 
@@ -15,6 +16,7 @@ const { errorHandler, notFound } = require("./middlewares/error/errorHandler");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cors());
 
 // routes
 app.use("/api/users", UserRoutes);

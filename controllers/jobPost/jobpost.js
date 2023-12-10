@@ -17,18 +17,6 @@ const JobPostController = async (req, res) => {
       information,
     } = req.body;
 
-    console.log(
-      companyName,
-      logoUrl,
-      jobPosition,
-      monthlySalary,
-      jobType,
-      location,
-      jobDescription,
-      aboutCompany,
-      skillsRequired,
-      information
-    );
     const jobpost = await JobData.create({
       companyName,
       logoUrl,
